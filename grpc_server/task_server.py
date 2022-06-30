@@ -54,5 +54,5 @@ class TaskServer(task_pb2_grpc.TaskServiceServicer):
         )
         return face_recognition_replay
 
-    def heartbeat(self, request, context):
-        return task_pb2.HeartbeatReplay()
+    def server_time_delta(self, request, context):
+        return task_pb2.TimeDeltaReplay(arrival_time=str(time.time()))

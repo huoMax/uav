@@ -4,8 +4,7 @@ syntax = "proto3";
 
 service TaskService{
     rpc task_face_recognition(FaceRecognitionRequest)returns(FaceRecognitionReplay){}
-    rpc heartbeat(HeartbeatRequest)returns(HeartbeatReplay){}
-    rpc test(HeartbeatRequest)returns(HeartbeatReplay){}
+    rpc server_time_delta(TimeDeltaRequest)returns(TimeDeltaReplay){}
 }
 
 message FaceRecognitionRequest {
@@ -23,9 +22,10 @@ message FaceRecognitionReplay {
     string end_handle_time = 6;
 }
 
-message HeartbeatRequest {
+message TimeDeltaRequest {
+
 }
 
-message HeartbeatReplay {
-
+message TimeDeltaReplay {
+    string arrival_time = 1;
 }

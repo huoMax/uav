@@ -21,15 +21,10 @@ class TaskServiceStub(object):
                 request_serializer=task__pb2.FaceRecognitionRequest.SerializeToString,
                 response_deserializer=task__pb2.FaceRecognitionReplay.FromString,
                 )
-        self.heartbeat = channel.unary_unary(
-                '/TaskService/heartbeat',
-                request_serializer=task__pb2.HeartbeatRequest.SerializeToString,
-                response_deserializer=task__pb2.HeartbeatReplay.FromString,
-                )
-        self.test = channel.unary_unary(
-                '/TaskService/test',
-                request_serializer=task__pb2.HeartbeatRequest.SerializeToString,
-                response_deserializer=task__pb2.HeartbeatReplay.FromString,
+        self.server_time_delta = channel.unary_unary(
+                '/TaskService/server_time_delta',
+                request_serializer=task__pb2.TimeDeltaRequest.SerializeToString,
+                response_deserializer=task__pb2.TimeDeltaReplay.FromString,
                 )
 
 
@@ -44,13 +39,7 @@ class TaskServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def heartbeat(self, request, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def test(self, request, context):
+    def server_time_delta(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -64,15 +53,10 @@ def add_TaskServiceServicer_to_server(servicer, server):
                     request_deserializer=task__pb2.FaceRecognitionRequest.FromString,
                     response_serializer=task__pb2.FaceRecognitionReplay.SerializeToString,
             ),
-            'heartbeat': grpc.unary_unary_rpc_method_handler(
-                    servicer.heartbeat,
-                    request_deserializer=task__pb2.HeartbeatRequest.FromString,
-                    response_serializer=task__pb2.HeartbeatReplay.SerializeToString,
-            ),
-            'test': grpc.unary_unary_rpc_method_handler(
-                    servicer.test,
-                    request_deserializer=task__pb2.HeartbeatRequest.FromString,
-                    response_serializer=task__pb2.HeartbeatReplay.SerializeToString,
+            'server_time_delta': grpc.unary_unary_rpc_method_handler(
+                    servicer.server_time_delta,
+                    request_deserializer=task__pb2.TimeDeltaRequest.FromString,
+                    response_serializer=task__pb2.TimeDeltaReplay.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -104,7 +88,7 @@ class TaskService(object):
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
-    def heartbeat(request,
+    def server_time_delta(request,
             target,
             options=(),
             channel_credentials=None,
@@ -114,25 +98,8 @@ class TaskService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/TaskService/heartbeat',
-            task__pb2.HeartbeatRequest.SerializeToString,
-            task__pb2.HeartbeatReplay.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
-
-    @staticmethod
-    def test(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/TaskService/test',
-            task__pb2.HeartbeatRequest.SerializeToString,
-            task__pb2.HeartbeatReplay.FromString,
+        return grpc.experimental.unary_unary(request, target, '/TaskService/server_time_delta',
+            task__pb2.TimeDeltaRequest.SerializeToString,
+            task__pb2.TimeDeltaReplay.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
