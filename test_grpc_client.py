@@ -18,7 +18,7 @@ import os
 # constant
 video_path = 'videos/1-minutes.mp4'
 host_name = 'ubantu21'
-grpc_ip = '192.168.40.133'
+grpc_ip = '192.168.31.69'
 grpc_port = 10000
 test_rounds = 10
 imgs_out_upper_folder = 'imgs_out/'
@@ -69,7 +69,7 @@ if __name__ == "__main__":
                 arrival_time = face_recoginition_replay.arrival_time
                 start_handle_time = face_recoginition_replay.start_handle_time
                 end_handle_time = face_recoginition_replay.end_handle_time
-                print(arrival_time, start_handle_time, end_handle_time)
+                # print(arrival_time, start_handle_time, end_handle_time)
 
                 # 保存处理后的图片
                 img_out_path = imgs_out_folder + str(frame_sequence) + '.jpg'
