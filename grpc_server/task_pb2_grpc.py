@@ -26,6 +26,11 @@ class TaskServiceStub(object):
                 request_serializer=task__pb2.HeartbeatRequest.SerializeToString,
                 response_deserializer=task__pb2.HeartbeatReplay.FromString,
                 )
+        self.test = channel.unary_unary(
+                '/TaskService/test',
+                request_serializer=task__pb2.HeartbeatRequest.SerializeToString,
+                response_deserializer=task__pb2.HeartbeatReplay.FromString,
+                )
 
 
 class TaskServiceServicer(object):
@@ -45,6 +50,12 @@ class TaskServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def test(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_TaskServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -55,6 +66,11 @@ def add_TaskServiceServicer_to_server(servicer, server):
             ),
             'heartbeat': grpc.unary_unary_rpc_method_handler(
                     servicer.heartbeat,
+                    request_deserializer=task__pb2.HeartbeatRequest.FromString,
+                    response_serializer=task__pb2.HeartbeatReplay.SerializeToString,
+            ),
+            'test': grpc.unary_unary_rpc_method_handler(
+                    servicer.test,
                     request_deserializer=task__pb2.HeartbeatRequest.FromString,
                     response_serializer=task__pb2.HeartbeatReplay.SerializeToString,
             ),
@@ -99,6 +115,23 @@ class TaskService(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/TaskService/heartbeat',
+            task__pb2.HeartbeatRequest.SerializeToString,
+            task__pb2.HeartbeatReplay.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def test(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/TaskService/test',
             task__pb2.HeartbeatRequest.SerializeToString,
             task__pb2.HeartbeatReplay.FromString,
             options, channel_credentials,

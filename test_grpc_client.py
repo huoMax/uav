@@ -16,24 +16,26 @@ import time
 import os
 
 # constant
-video_path = '1-minutes.mp4'
+video_path = 'videos/1-minutes.mp4'
 host_name = 'ubantu21'
-writer_filepath = host_name + '_1minutes_netdelay.xlsx'
 grpc_ip = '192.168.40.133'
 grpc_port = 10000
 test_rounds = 10
 imgs_out_upper_folder = 'imgs_out/'
+key = 10
 
 
 if __name__ == "__main__":
-
-    # 打开excel文件, 获取 writer 对象
-    writer = pd.ExcelWriter(writer_filepath)
 
     # get grpc client
     client_stub = GetClientStub(grpc_ip, grpc_port)
 
     for test_round in range(1, test_rounds+1):
+        # 打开excel文件, 获取 writer 对象
+        writer_filepath = host_name + '_' + str(test_round) + '_1minutes_netdelay.xlsx'
+        writer = pd.ExcelWriter(writer_filepath)
+
+        i = 0
         time_data = {}
 
         # 创建图片识别结果保存目录
@@ -51,7 +53,9 @@ if __name__ == "__main__":
         # 请求 grpc server 
         for frame_sequence in range(1, int(frame_count)+1):
             ret, img_orig = capture.read()
-            if ret:
+            i = i + 1
+            if ret and i == key:
+                i = 0
                 face_recoginition_request = task_pb2.FaceRecognitionRequest(
                     sequence=frame_sequence,
                     img_orig=ImgEncode(img_orig,'.jpg'),
@@ -65,6 +69,7 @@ if __name__ == "__main__":
                 arrival_time = face_recoginition_replay.arrival_time
                 start_handle_time = face_recoginition_replay.start_handle_time
                 end_handle_time = face_recoginition_replay.end_handle_time
+                print(arrival_time, start_handle_time, end_handle_time)
 
                 # 保存处理后的图片
                 img_out_path = imgs_out_folder + str(frame_sequence) + '.jpg'
@@ -74,22 +79,21 @@ if __name__ == "__main__":
                 # 保存时间记录
                 time_data[frame_sequence] = {}
                 time_data[frame_sequence]['frame_sequence'] = frame_sequence
-                time_data[frame_sequence]['start_request_time'] = start_request_time
-                time_data[frame_sequence]['end_request_time'] = end_request_time
-                time_data[frame_sequence]['arrival_time'] = arrival_time
-                time_data[frame_sequence]['start_handle_time'] = start_handle_time
-                time_data[frame_sequence]['end_handle_time'] = end_handle_time
+                time_data[frame_sequence]['start_request_time'] = float(start_request_time)
+                time_data[frame_sequence]['end_request_time'] = float(end_request_time)
+                time_data[frame_sequence]['arrival_time'] = float(arrival_time)
+                time_data[frame_sequence]['start_handle_time'] = float(start_handle_time)
+                time_data[frame_sequence]['end_handle_time'] = float(end_handle_time)
 
         
         # 保存时间记录数据到excel表
-        sheet_name = str(test_round)
         df = pd.DataFrame(data=time_data).T
-        df.to_excel(writer, sheet_name=sheet_name, index=False)
+        df.to_excel(writer, index=False)
+        
+        # 关闭excel文件
         writer.save()
+        writer.close()
 
         DestroyVideoCapture(capture)
-
-    # 关闭excel文件
-    writer.close()
 
 

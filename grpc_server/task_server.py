@@ -48,9 +48,9 @@ class TaskServer(task_pb2_grpc.TaskServiceServicer):
         face_recognition_replay = task_pb2.FaceRecognitionReplay(sequence=sequence,
             img_out=ImgEncode(img_out, '.jpg'),
             success=success, 
-            arrival_time=arrival_time, 
-            start_handle_time=start_handle_time,
-            end_handle_time=end_handle_time
+            arrival_time=str(arrival_time), 
+            start_handle_time=str(start_handle_time),
+            end_handle_time=str(end_handle_time)
         )
         return face_recognition_replay
 

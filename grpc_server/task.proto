@@ -18,9 +18,9 @@ message FaceRecognitionReplay {
     int32 sequence = 1;
     bytes img_out = 2;
     bool success = 3;
-    float arrival_time = 4;
-    float start_handle_time = 5;
-    float end_handle_time = 6;
+    string arrival_time = 4;
+    string start_handle_time = 5;
+    string end_handle_time = 6;
 }
 
 message HeartbeatRequest {
