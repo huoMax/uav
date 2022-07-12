@@ -14,7 +14,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\ntask.proto\"L\n\x16\x46\x61\x63\x65RecognitionRequest\x12\x10\n\x08sequence\x18\x01 \x01(\x05\x12\x10\n\x08img_orig\x18\x02 \x01(\x0c\x12\x0e\n\x06target\x18\x03 \x01(\t\"\x95\x01\n\x15\x46\x61\x63\x65RecognitionReplay\x12\x10\n\x08sequence\x18\x01 \x01(\x05\x12\x0f\n\x07img_out\x18\x02 \x01(\x0c\x12\x0f\n\x07success\x18\x03 \x01(\x08\x12\x14\n\x0c\x61rrival_time\x18\x04 \x01(\t\x12\x19\n\x11start_handle_time\x18\x05 \x01(\t\x12\x17\n\x0f\x65nd_handle_time\x18\x06 \x01(\t\"\x12\n\x10TimeDeltaRequest\"\'\n\x0fTimeDeltaReplay\x12\x14\n\x0c\x61rrival_time\x18\x01 \x01(\t2\x95\x01\n\x0bTaskService\x12J\n\x15task_face_recognition\x12\x17.FaceRecognitionRequest\x1a\x16.FaceRecognitionReplay\"\x00\x12:\n\x11server_time_delta\x12\x11.TimeDeltaRequest\x1a\x10.TimeDeltaReplay\"\x00\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\ntask.proto\"L\n\x16\x46\x61\x63\x65RecognitionRequest\x12\x10\n\x08sequence\x18\x01 \x01(\x05\x12\x10\n\x08img_orig\x18\x02 \x01(\x0c\x12\x0e\n\x06target\x18\x03 \x01(\t\"\x95\x01\n\x15\x46\x61\x63\x65RecognitionReplay\x12\x10\n\x08sequence\x18\x01 \x01(\x05\x12\x0f\n\x07img_out\x18\x02 \x01(\x0c\x12\x0f\n\x07success\x18\x03 \x01(\x08\x12\x14\n\x0c\x61rrival_time\x18\x04 \x01(\t\x12\x19\n\x11start_handle_time\x18\x05 \x01(\t\x12\x17\n\x0f\x65nd_handle_time\x18\x06 \x01(\t\"\x12\n\x10TimeDeltaRequest\"\'\n\x0fTimeDeltaReplay\x12\x14\n\x0c\x61rrival_time\x18\x01 \x01(\t2\xa1\x01\n\x0bTaskService\x12J\n\x15task_face_recognition\x12\x17.FaceRecognitionRequest\x1a\x16.FaceRecognitionReplay\"\x00\x12\x46\n\x11server_time_delta\x12\x17.FaceRecognitionRequest\x1a\x16.FaceRecognitionReplay\"\x00\x62\x06proto3')
 
 
 
@@ -63,5 +63,5 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   _TIMEDELTAREPLAY._serialized_start=264
   _TIMEDELTAREPLAY._serialized_end=303
   _TASKSERVICE._serialized_start=306
-  _TASKSERVICE._serialized_end=455
+  _TASKSERVICE._serialized_end=467
 # @@protoc_insertion_point(module_scope)

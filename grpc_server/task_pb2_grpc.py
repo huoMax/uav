@@ -23,8 +23,8 @@ class TaskServiceStub(object):
                 )
         self.server_time_delta = channel.unary_unary(
                 '/TaskService/server_time_delta',
-                request_serializer=task__pb2.TimeDeltaRequest.SerializeToString,
-                response_deserializer=task__pb2.TimeDeltaReplay.FromString,
+                request_serializer=task__pb2.FaceRecognitionRequest.SerializeToString,
+                response_deserializer=task__pb2.FaceRecognitionReplay.FromString,
                 )
 
 
@@ -55,8 +55,8 @@ def add_TaskServiceServicer_to_server(servicer, server):
             ),
             'server_time_delta': grpc.unary_unary_rpc_method_handler(
                     servicer.server_time_delta,
-                    request_deserializer=task__pb2.TimeDeltaRequest.FromString,
-                    response_serializer=task__pb2.TimeDeltaReplay.SerializeToString,
+                    request_deserializer=task__pb2.FaceRecognitionRequest.FromString,
+                    response_serializer=task__pb2.FaceRecognitionReplay.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -99,7 +99,7 @@ class TaskService(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/TaskService/server_time_delta',
-            task__pb2.TimeDeltaRequest.SerializeToString,
-            task__pb2.TimeDeltaReplay.FromString,
+            task__pb2.FaceRecognitionRequest.SerializeToString,
+            task__pb2.FaceRecognitionReplay.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

@@ -55,4 +55,10 @@ class TaskServer(task_pb2_grpc.TaskServiceServicer):
         return face_recognition_replay
 
     def server_time_delta(self, request, context):
-        return task_pb2.TimeDeltaReplay(arrival_time=str(time.time()))
+        return task_pb2.FaceRecognitionReplay(sequence = request.sequence, 
+                    img_out = request.img_orig,
+                    success = True,
+                    arrival_time = str(time.time()),
+                    start_handle_time = str(0),
+                    end_handle_time = str(0)
+                    )

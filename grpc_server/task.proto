@@ -4,7 +4,7 @@ syntax = "proto3";
 
 service TaskService{
     rpc task_face_recognition(FaceRecognitionRequest)returns(FaceRecognitionReplay){}
-    rpc server_time_delta(TimeDeltaRequest)returns(TimeDeltaReplay){}
+    rpc server_time_delta(FaceRecognitionRequest)returns(FaceRecognitionReplay){}
 }
 
 message FaceRecognitionRequest {
