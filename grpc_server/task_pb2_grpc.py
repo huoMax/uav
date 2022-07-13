@@ -26,6 +26,11 @@ class TaskServiceStub(object):
                 request_serializer=task__pb2.FaceRecognitionRequest.SerializeToString,
                 response_deserializer=task__pb2.FaceRecognitionReplay.FromString,
                 )
+        self.twice_server_time_delta = channel.unary_unary(
+                '/TaskService/twice_server_time_delta',
+                request_serializer=task__pb2.FaceRecognitionRequest.SerializeToString,
+                response_deserializer=task__pb2.FaceRecognitionReplay.FromString,
+                )
 
 
 class TaskServiceServicer(object):
@@ -45,6 +50,12 @@ class TaskServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def twice_server_time_delta(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_TaskServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -55,6 +66,11 @@ def add_TaskServiceServicer_to_server(servicer, server):
             ),
             'server_time_delta': grpc.unary_unary_rpc_method_handler(
                     servicer.server_time_delta,
+                    request_deserializer=task__pb2.FaceRecognitionRequest.FromString,
+                    response_serializer=task__pb2.FaceRecognitionReplay.SerializeToString,
+            ),
+            'twice_server_time_delta': grpc.unary_unary_rpc_method_handler(
+                    servicer.twice_server_time_delta,
                     request_deserializer=task__pb2.FaceRecognitionRequest.FromString,
                     response_serializer=task__pb2.FaceRecognitionReplay.SerializeToString,
             ),
@@ -99,6 +115,23 @@ class TaskService(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/TaskService/server_time_delta',
+            task__pb2.FaceRecognitionRequest.SerializeToString,
+            task__pb2.FaceRecognitionReplay.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def twice_server_time_delta(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/TaskService/twice_server_time_delta',
             task__pb2.FaceRecognitionRequest.SerializeToString,
             task__pb2.FaceRecognitionReplay.FromString,
             options, channel_credentials,

@@ -9,8 +9,13 @@ from . import task_pb2_grpc
 from tools.img_handle import ImgEncode
 from tools.img_handle import ImgDecode
 
+from grpc_server.task_server_thread import GetClientStub
+
 # app
 from app.app_api import APIFaceRecognition
+
+twice_test_ip = "192.168.40.133"
+twice_test_port = 10000
 
 class TaskServer(task_pb2_grpc.TaskServiceServicer):
     """grpc server远程函数调用"""
@@ -59,6 +64,20 @@ class TaskServer(task_pb2_grpc.TaskServiceServicer):
                     img_out = request.img_orig,
                     success = True,
                     arrival_time = str(time.time()),
+                    start_handle_time = str(0),
+                    end_handle_time = str(0)
+                    )
+    
+    def twice_server_time_delta(self, request, context):
+        client_stub = GetClientStub(twice_test_ip, twice_test_port)
+        replay = client_stub.server_time_delta(sequence = request.sequence,
+            img_orig = request.img_orig,
+            target = request.target
+            )
+        return task_pb2.FaceRecognitionReplay(sequence = request.sequence, 
+                    img_out = request.img_orig,
+                    success = True,
+                    arrival_time = replay.arrival_time,
                     start_handle_time = str(0),
                     end_handle_time = str(0)
                     )
