@@ -2,14 +2,13 @@
 import time
 
 # grpc
+import grpc
 from . import task_pb2
 from . import task_pb2_grpc
 
 # img handle
 from tools.img_handle import ImgEncode
 from tools.img_handle import ImgDecode
-
-from grpc_server.task_server_thread import GetClientStub
 
 # app
 from app.app_api import APIFaceRecognition
@@ -69,7 +68,8 @@ class TaskServer(task_pb2_grpc.TaskServiceServicer):
                     )
     
     def twice_server_time_delta(self, request, context):
-        client_stub = GetClientStub(twice_test_ip, twice_test_port)
+        channel = grpc.insecure_channel(str(twice_test_ip) + ":" + str(twice_test_port))
+        client_stub = task_pb2_grpc.TaskServiceStub(channel)
         replay = client_stub.server_time_delta(sequence = request.sequence,
             img_orig = request.img_orig,
             target = request.target
