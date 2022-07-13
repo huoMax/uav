@@ -13,7 +13,7 @@ from tools.img_handle import ImgDecode
 # app
 from app.app_api import APIFaceRecognition
 
-twice_test_ip = "192.168.40.133"
+twice_test_ip = "192.168.31.187"
 twice_test_port = 10000
 
 class TaskServer(task_pb2_grpc.TaskServiceServicer):
@@ -70,11 +70,12 @@ class TaskServer(task_pb2_grpc.TaskServiceServicer):
     def twice_server_time_delta(self, request, context):
         channel = grpc.insecure_channel(str(twice_test_ip) + ":" + str(twice_test_port))
         client_stub = task_pb2_grpc.TaskServiceStub(channel)
-        replay = client_stub.server_time_delta(sequence = request.sequence,
+        sequence = request.sequence
+        replay = client_stub.server_time_delta(task_pb2.FaceRecognitionRequest(sequence = sequence,
             img_orig = request.img_orig,
             target = request.target
-            )
-        return task_pb2.FaceRecognitionReplay(sequence = request.sequence, 
+            ))
+        return task_pb2.FaceRecognitionReplay(sequence = sequence, 
                     img_out = request.img_orig,
                     success = True,
                     arrival_time = replay.arrival_time,
