@@ -12,9 +12,9 @@ import cv2
 
 # constant
 time_delta_test_rounds = 1000
-server_node = 'ubantu21'
+server_node = 'raspbian4-old'
 writer_path = server_node + '_single_node_net_delay.xlsx'
-grpc_ip = '192.168.40.133'
+grpc_ip = '192.168.31.187'
 grpc_port = 10000
 img_path = './test_grpc.jpg'
 
