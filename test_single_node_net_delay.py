@@ -26,7 +26,6 @@ if __name__ == "__main__":
     client_stub = GetClientStub(grpc_ip, grpc_port)
     time_data = {}
 
-
     for test_round in range(1, time_delta_test_rounds+1):
         if test_round % 100 == 0:
             print(str(test_round/100) + ": " + str(time.time()))

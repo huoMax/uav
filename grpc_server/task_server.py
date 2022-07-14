@@ -59,26 +59,24 @@ class TaskServer(task_pb2_grpc.TaskServiceServicer):
         return face_recognition_replay
 
     def server_time_delta(self, request, context):
-        return task_pb2.FaceRecognitionReplay(sequence = request.sequence, 
-                    img_out = request.img_orig,
-                    success = True,
-                    arrival_time = str(time.time()),
-                    start_handle_time = str(0),
-                    end_handle_time = str(0)
-                    )
+        return task_pb2.FaceRecognitionReplay(sequence = request.sequence,
+                                              img_out = request.img_orig,
+                                              success = True,
+                                              arrival_time = str(time.time()),
+                                              start_handle_time = str(0),
+                                              end_handle_time = str(0)
+                                              )
     
     def twice_server_time_delta(self, request, context):
+        arrival_time = time.time()
         channel = grpc.insecure_channel(str(twice_test_ip) + ":" + str(twice_test_port))
         client_stub = task_pb2_grpc.TaskServiceStub(channel)
         sequence = request.sequence
-        replay = client_stub.server_time_delta(task_pb2.FaceRecognitionRequest(sequence = sequence,
-            img_orig = request.img_orig,
-            target = request.target
-            ))
-        return task_pb2.FaceRecognitionReplay(sequence = sequence, 
-                    img_out = request.img_orig,
-                    success = True,
-                    arrival_time = replay.arrival_time,
-                    start_handle_time = str(0),
-                    end_handle_time = str(0)
-                    )
+        replay = client_stub.server_time_delta(task_pb2.FaceRecognitionRequest(sequence = sequence,img_orig = request.img_orig,target = request.target))
+        return task_pb2.FaceRecognitionReplay(sequence = sequence,
+                                              img_out = request.img_orig,
+                                              success = True,
+                                              arrival_time = str(arrival_time),
+                                              start_handle_time = replay.arrival_time,
+                                              end_handle_time = str(0)
+                                              )

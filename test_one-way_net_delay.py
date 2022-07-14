@@ -25,25 +25,47 @@ if __name__ == "__main__":
 
     # get grpc client
     client_stub = GetClientStub(grpc_ip, grpc_port)
+    one_way_time_data = {}
     time_data = {}
 
+    for test_round in range(1, time_delta_test_rounds+1):
+        if test_round % 100 == 0:
+            print(str(test_round) + ": " + str(time.time()))
+        start_request_time = time.time()
+        replay = client_stub.server_time_delta(task_pb2.FaceRecognitionRequest(sequence=test_round, img_orig=img_orig, target="wgk"))
+        arrival_time = float(replay.arrival_time)
+        end_request_time = time.time()
+
+        time_data[test_round] = {}
+        time_data[test_round]['start_request_time'] = start_request_time
+        time_data[test_round]['arrival_time'] = arrival_time
+        time_data[test_round]['end_request_time'] = end_request_time
+
+    df = pd.DataFrame(data=time_data).T
+    df['absolute_net_delay'] = df['end_request_time'] - df['start_request_time']
 
     for test_round in range(1, time_delta_test_rounds+1):
         if test_round % 100 == 0:
             print(str(test_round) + ": " + str(time.time()))
         start_request_time = time.time()
         replay = client_stub.twice_server_time_delta(task_pb2.FaceRecognitionRequest(sequence=test_round, img_orig=img_orig, target="wgk"))
-        arrival_time = float(replay.arrival_time)
+        arrival_time_b = float(replay.arrival_time)
+        arrival_time_a = float(replay.start_handle_time)
+
         end_request_time = time.time()
 
-        time_data[test_round] = {}
-        time_data[test_round]['start_reuqest_time'] = start_request_time
-        time_data[test_round]['arrival_time'] = arrival_time
-        time_data[test_round]['end_reuqest_time'] = end_request_time
+        one_way_time_data[test_round] = {}
+        one_way_time_data[test_round]['start_request_time'] = start_request_time
+        one_way_time_data[test_round]['arrival_time_b'] = arrival_time_b
+        one_way_time_data[test_round]['arrival_time_a'] = arrival_time_a
+        one_way_time_data[test_round]['end_request_time'] = end_request_time
 
+    df_one_way = pd.DataFrame(data=one_way_time_data).T
+    df_one_way['send_net_delay'] = df_one_way['arrival_time_a'] - df_one_way['start_request_time']
+    df_one_way['replay_net_delay'] = df_one_way['end_request_time'] - df_one_way['arrival_time_a']
 
-    df = pd.DataFrame(data=time_data).T
     writer = pd.ExcelWriter(writer_path)
-    df.to_excel(writer, index=False)
+    df.to_excel(writer, index=False, sheer_name=str(1))
+    df_one_way.to_excel(writer, index=False, sheer_name=str(2))
     writer.save()
     writer.close()

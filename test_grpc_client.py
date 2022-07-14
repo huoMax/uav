@@ -85,7 +85,6 @@ if __name__ == "__main__":
                 time_data[frame_sequence]['start_handle_time'] = float(start_handle_time)
                 time_data[frame_sequence]['end_handle_time'] = float(end_handle_time)
 
-        
         # 保存时间记录数据到excel表
         df = pd.DataFrame(data=time_data).T
         df.to_excel(writer, index=False)
